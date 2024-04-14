@@ -1,0 +1,36 @@
+.controls-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.btn{
+    border-radius: 8px;
+    padding: 10px 30px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-stop{
+    background-color: #FF3B30;
+    color: white;
+}
+
+.btn-restart{
+    background-color: #007AFF;
+    color: white;
+}
+
+.btn-yellow{
+    background-color: #FFCC00;
+    color: white;
+}
+
+.btn-start{
+    background-color: aqua;
+    color: black;
+
+}

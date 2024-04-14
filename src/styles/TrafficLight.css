@@ -1,0 +1,56 @@
+.traffic-light {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 35px;
+  background-color: #1e2836;
+  width: 100px;
+  height: 170px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  position: absolute;
+}
+
+.west {
+  inset: 350px 0 0 750px;
+}
+
+.north {
+  inset: 270px 0 0 1050px;
+  rotate: -90deg;
+}
+
+.east {
+  inset: 550px 0 0 1150px;
+  rotate: 180deg;
+}
+
+.south {
+  inset: 650px 0 0 810px;
+  rotate: 90deg;
+}
+
+.lights {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.light {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #485262;
+}
+
+.red.active {
+  background: #fe4e43;
+}
+
+.yellow.active {
+  background: #ffba0a;
+}
+
+.green.active {
+  background: #acd94c;
+}
