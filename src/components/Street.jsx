@@ -4,35 +4,68 @@ import Controls from "./Controls";
 import TrafficLight from "./TrafficLight";
 
 function Street() {
-  const [lights, setLights] = useState({
-    north: "green",
-    south: "green",
-    east: "red",
-    west: "red",
-  });
+  const [light, setLight] = useState("green");
+  const [light2, setLight2] = useState("red");
+
+  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setLights((prevLights) => ({
-        north: prevLights.north === "green" ? "red" : "green",
-        south: prevLights.south === "green" ? "red" : "green",
-        east: prevLights.east === "red" ? "green" : "red",
-        west: prevLights.west === "red" ? "green" : "red",
-      }));
-    }, 5000); // Cambia las luces cada 5 segundos
-
+    const changeLights = async () => {
+      setLight("green");
+      await sleep(17500);
+      setLight("");
+      await sleep(500); 
+      setLight("green")
+      await sleep(500); 
+      setLight("");
+      await sleep(500); 
+      setLight("green")
+      await sleep(500); 
+      setLight("");
+      await sleep(500); 
+      setLight("yellow");
+      await sleep(3000); 
+      setLight("red");
+      await sleep(23000);
+      changeLights(); 
+    };
+    changeLights();
     return () => {
-      clearInterval(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    const changeLights2 = async () => {
+      setLight2("red");
+      await sleep(23000);
+      setLight2("green");
+      await sleep(17500);
+      setLight2("");
+      await sleep(500); 
+      setLight2("green")
+      await sleep(500); 
+      setLight2("");
+      await sleep(500); 
+      setLight2("green")
+      await sleep(500); 
+      setLight2("");
+      await sleep(500); 
+      setLight2("yellow");
+      await sleep(3000); 
+      changeLights2(); 
+    };
+    changeLights2();
+    return () => {
     };
   }, []);
 
   return (
     <div className="street-bg">
       <Controls />
-      <TrafficLight type="west" color={lights.west} />
-      <TrafficLight type="north" color={lights.north} />
-      <TrafficLight type="east" color={lights.east} />
-      <TrafficLight type="south" color={lights.south} />
+      <TrafficLight type="north" color={light} />
+      <TrafficLight type="west" color={light2} />
+      <TrafficLight type="east" color={light2} />
+      <TrafficLight type="south" color={light} />
     </div>
   );
 }

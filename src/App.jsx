@@ -5,8 +5,6 @@ function App() {
 
   return (
     <div>
-      {/* <Street type='west'/>
-      <Street type='north'/> */}
       <Street type='south'/>
     </div>
   )
