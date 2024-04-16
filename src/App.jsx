@@ -5,7 +5,7 @@ function App() {
 
   return (
     <div>
-      <Street type='south'/>
+      <Street />
     </div>
   )
 }

@@ -12,21 +12,22 @@
 }
 
 .west {
-  inset: 350px 0 0 750px;
+  inset: 220px 0 0 520px;
+  rotate: 180deg;
 }
 
 .north {
-  inset: 270px 0 0 1050px;
+  inset: 170px 0 0 850px;
   rotate: -90deg;
 }
 
 .east {
-  inset: 550px 0 0 1150px;
+  inset: 410px 0 0 870px;
   rotate: 180deg;
 }
 
 .south {
-  inset: 650px 0 0 810px;
+  inset: 470px 0 0 620px;
   rotate: 90deg;
 }
 
