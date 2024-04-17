@@ -55,3 +55,24 @@
 .green.active {
   background: #acd94c;
 }
+
+@media screen and (max-width: 1920px) and (max-height: 1080px) {
+  .west {
+    inset: 350px 0 0 750px;
+  }
+  
+  .north {
+    inset: 270px 0 0 1050px;
+    rotate: -90deg;
+  }
+  
+  .east {
+    inset: 550px 0 0 1150px;
+    rotate: 180deg;
+  }
+  
+  .south {
+    inset: 650px 0 0 810px;
+    rotate: 90deg;
+  }
+}
