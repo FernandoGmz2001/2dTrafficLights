@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function useCounter(initialCount, interval, countDirection = -1,startCount = initialCount) {
+function useCounter(initialCount, interval, countDirection = -1,startCount = initialCount,resetCount = 0) {
   const [count, setCount] = useState(startCount);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ function useCounter(initialCount, interval, countDirection = -1,startCount = ini
     return () => clearTimeout(timer);
   }, [count, interval, countDirection]);
 
-  const reset = () => setCount(initialCount);
+  const reset = () => setCount(resetCount);
 
   return [count, reset];
 }

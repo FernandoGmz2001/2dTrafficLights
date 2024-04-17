@@ -1,7 +1,8 @@
+import "../styles/Counter.css"
 import PropTypes from 'prop-types'
-function Counter({counter}) {
+function Counter({counter, color}) {
   return (
-    <div className="counter">
+    <div className={`counter ${color}`}>
       <h1>{counter}</h1>
     </div>
   );
@@ -9,6 +10,7 @@ function Counter({counter}) {
 
 
 Counter.propTypes = {
-  counter: PropTypes.number.isRequired
+  counter: PropTypes.number.isRequired,
+  color: PropTypes.number
 };
 export default Counter;

@@ -8,52 +8,65 @@ import useCounter from "../utils/useCounter";
 function Street() {
   const [light, setLight] = useState("green");
   const [light2, setLight2] = useState("red");
-  const [greenCounter, resetGreenCounter] = useCounter(5, 1000, -1, 5);
-  const [flashingCounter, resetFlashingCounter] = useCounter(3, 1000, 1,3);
-  const [yellowCounter, resetYellowCounter] = useCounter(3, 1000, 1);
-  const [lightState, setLightState] = useState("green");
+  const [counterName, setCounterName] = useState("green");
+  const [greenCounter, resetGreen] = useCounter(15, 1000, -1, 15, 15);
+  const [flashingGreen, resetFlashingGreen] = useCounter(3, 1000, 1, 1, 1, 0);
+  const [yellowCounter, resetYellow] = useCounter(3, 1000, 1, 1, 1, 0);
+  const [redCounter, resetRed] = useCounter(3, 1000, 1, 1, 1, 0);
+  const [isRepeated, setIsRepeated] = useState(false)
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-useEffect(() => {
-  const changeLights = async () => {
-    setLight("green");
-    setLightState("green");
-    await sleep(16000);
-    resetGreenCounter();
-    resetFlashingCounter()
-    setLightState("flashing-green");
-    setLight("");
-    await sleep(500);
-    setLight("green");
-    await sleep(500);
-    setLight("");
-    await sleep(500);
-    setLight("green");
-    await sleep(500);
-    setLight("");
-    await sleep(500);
-    setLight("green");
-    await sleep(500);
-    setLightState("yellow");
-    setLight("yellow");
-    await sleep(2500);
-    setLight("red");
-    setLightState("red");
-    await sleep(23500);
-    resetYellowCounter();
-    changeLights();
-  };
-  changeLights();
-  return () => {};
-}, []);
+  useEffect(() => {
+    const verticalTrafficLights = async () => {
+      // resetGreen();
+      // setCounterName("green");
+      setLight("green");
+      await sleep(16000);
+      // resetFlashingGreen();
+      // setCounterName("flashing-green");
+      setLight("");
+      await sleep(500);
+      setLight("green");
+      await sleep(500);
+      setLight("");
+      await sleep(500);
+      setLight("green");
+      await sleep(500);
+      setLight("");
+      await sleep(500);
+      setLight("green");
+      await sleep(500);
+      setLight("");
+      // setCounterName("yellow");
+      // resetYellow();
+      setLight("yellow");
+      await sleep(2500);
+      setLight("");
+      await sleep(500);
+      // resetRed();
+      // setCounterName("red");
+      setLight("red");
+      await sleep(23500);
+      verticalTrafficLights();
+    };
+    verticalTrafficLights();
+    return () => {};
+  }, []);
 
   useEffect(() => {
-    const changeLights2 = async () => {
+    const horizontalTrafficLights = async () => {
+      // resetRed()
+      // setCounterName("red")
       setLight2("red");
       await sleep(23500);
+      resetGreen()
+      // setCounterName("green")
       setLight2("green");
       await sleep(16000);
+      // resetFlashingGreen()
+      // flashingGreen()
+      // setCounterName("flasing-green")
       setLight2("");
       await sleep(500);
       setLight2("green");
@@ -69,9 +82,35 @@ useEffect(() => {
       setLight2("");
       setLight2("yellow");
       await sleep(3000);
-      changeLights2();
+      horizontalTrafficLights();
     };
-    changeLights2();
+    horizontalTrafficLights();
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    const timer = async () => {
+      resetGreen();
+      setCounterName("green");
+      await sleep(16000);
+      resetFlashingGreen();
+      setCounterName("flashing-green");
+      await sleep(500);
+      await sleep(500);
+      await sleep(500);
+      await sleep(500);
+      await sleep(500);
+      await sleep(500);
+      setCounterName("yellow");
+      resetYellow();
+      await sleep(2500);
+      await sleep(500);
+      resetRed();
+      setCounterName("red");
+      await sleep(1500);
+      timer();
+    };
+    timer();
     return () => {};
   }, []);
 
@@ -79,15 +118,18 @@ useEffect(() => {
     <div className="street-bg">
       <Controls />
       <div className="counter-container">
-        <Counter
-          counter={
-            lightState == "green"
-              ? greenCounter
-              : lightState == "flashing-green"
-              ? flashingCounter
-              : yellowCounter
-          }
-        />
+        {counterName === "green" && (
+          <Counter counter={greenCounter} color={"green"} />
+        )}
+        {counterName === "flashing-green" && (
+          <Counter counter={flashingGreen} color={"green"} />
+        )}
+        {counterName === "yellow" && (
+          <Counter counter={yellowCounter} color={"yellow"} />
+        )}
+        {counterName === "red" && (
+          <Counter counter={redCounter} color={"red"} />
+        )}
       </div>
       <TrafficLight type="north" color={light} />
       <TrafficLight type="west" color={light2} />

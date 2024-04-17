@@ -4,6 +4,7 @@
   background-size: cover;
   object-fit: cover;
   position: relative;
+  background-position: center;
 }
 
 .counter-container{

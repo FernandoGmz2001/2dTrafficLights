@@ -10,7 +10,7 @@ function Controls() {
 
   return (
     <div className="controls-container">
-      <button className="btn btn-yellow">Amarillo</button>
+      <button className="btn btn-yellow">Preventivas</button>
       <button className="btn btn-restart">Reiniciar</button>
       <button className={`btn ${isStopped ? 'btn-start' : 'btn-stop'}`} onClick={toggleStopStart}>
         {isStopped ? 'Iniciar' : 'Detener'}
