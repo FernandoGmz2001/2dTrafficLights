@@ -13,18 +13,13 @@ function Street() {
   const [flashingGreen, resetFlashingGreen] = useCounter(3, 1000, 1, 1, 1, 0);
   const [yellowCounter, resetYellow] = useCounter(3, 1000, 1, 1, 1, 0);
   const [redCounter, resetRed] = useCounter(3, 1000, 1, 1, 1, 0);
-  const [isRepeated, setIsRepeated] = useState(false)
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   useEffect(() => {
     const verticalTrafficLights = async () => {
-      // resetGreen();
-      // setCounterName("green");
       setLight("green");
       await sleep(16000);
-      // resetFlashingGreen();
-      // setCounterName("flashing-green");
       setLight("");
       await sleep(500);
       setLight("green");
@@ -38,16 +33,13 @@ function Street() {
       setLight("green");
       await sleep(500);
       setLight("");
-      // setCounterName("yellow");
-      // resetYellow();
+      await sleep(500);
       setLight("yellow");
-      await sleep(2500);
+      await sleep(3000);
       setLight("");
       await sleep(500);
-      // resetRed();
-      // setCounterName("red");
       setLight("red");
-      await sleep(23500);
+      await sleep(23000);
       verticalTrafficLights();
     };
     verticalTrafficLights();
@@ -56,17 +48,11 @@ function Street() {
 
   useEffect(() => {
     const horizontalTrafficLights = async () => {
-      // resetRed()
-      // setCounterName("red")
       setLight2("red");
       await sleep(23500);
       resetGreen()
-      // setCounterName("green")
       setLight2("green");
       await sleep(16000);
-      // resetFlashingGreen()
-      // flashingGreen()
-      // setCounterName("flasing-green")
       setLight2("");
       await sleep(500);
       setLight2("green");
@@ -81,7 +67,9 @@ function Street() {
       await sleep(500);
       setLight2("");
       setLight2("yellow");
-      await sleep(3000);
+      await sleep(2500);
+      setLight("");
+      await sleep(500);
       horizontalTrafficLights();
     };
     horizontalTrafficLights();
@@ -95,19 +83,13 @@ function Street() {
       await sleep(16000);
       resetFlashingGreen();
       setCounterName("flashing-green");
-      await sleep(500);
-      await sleep(500);
-      await sleep(500);
-      await sleep(500);
-      await sleep(500);
-      await sleep(500);
+      await sleep(3500)
       setCounterName("yellow");
       resetYellow();
-      await sleep(2500);
-      await sleep(500);
+      await sleep(3500);
       resetRed();
       setCounterName("red");
-      await sleep(1500);
+      await sleep(2000);
       timer();
     };
     timer();
