@@ -122,3 +122,102 @@ function Street() {
 }
 
 export default Street;
+import  { useState, useEffect } from "react";
+import "../styles/Street.css";
+import Controls from "./Controls";
+import TrafficLight from "./TrafficLight";
+import Counter from "./Counter";
+import useCounter from "../utils/useCounter";
+
+function Street() {
+  const [lights, setLights] = useState({
+    north: "green",
+    west: "red",
+    east: "red",
+    south: "green",
+  });
+
+  const phases = [
+    { name: "green", duration: 15 },
+    { name: "flashing-green", duration: 3 },
+    { name: "yellow", duration: 3 },
+    { name: "red", duration: 2 }
+  ];
+
+  const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
+  const currentPhase = phases[currentPhaseIndex];
+
+  const [counter, resetCounter] = useCounter(currentPhase.duration, 1000, -1, currentPhase.duration, currentPhase.duration);
+
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  useEffect(() => {
+    const timer = async () => {
+      await sleep(currentPhase.duration * 1000); // Esperar hasta que termine la fase actual
+      setCurrentPhaseIndex((prevIndex) => (prevIndex + 1) % phases.length); // Pasar a la siguiente fase
+      resetCounter(); // Reiniciar el contador de la fase
+      timer(); // Reiniciar el temporizador para la próxima fase
+    };
+
+    timer(); // Iniciar el temporizador al montar el componente
+
+    return () => {}; // Limpiar el efecto (no se necesita en este caso)
+  }, [currentPhase, resetCounter, phases.length]);
+
+  useEffect(() => {
+    const updateLights = async () => {
+      const { name } = phases[currentPhaseIndex];
+      const newLights = {};
+
+      switch (name) {
+        case "green":
+          newLights.north = "green";
+          newLights.west = "";
+          newLights.east = "";
+          newLights.south = "green";
+          break;
+        case "flashing-green":
+          newLights.north = "green";
+          newLights.west = "";
+          newLights.east = "";
+          newLights.south = "green";
+          break;
+        case "yellow":
+          newLights.north = "";
+          newLights.west = "yellow";
+          newLights.east = "yellow";
+          newLights.south = "";
+          break;
+        case "red":
+          newLights.north = "red";
+          newLights.west = "red";
+          newLights.east = "red";
+          newLights.south = "red";
+          break;
+        default:
+          break;
+      }
+
+      setLights(newLights);
+    };
+
+    updateLights(); // Actualizar las luces al montar el componente
+
+    return () => {}; // Limpiar el efecto (no se necesita en este caso)
+  }, [currentPhaseIndex, phases]);
+
+  return (
+    <div className="street-bg">
+      <Controls />
+      <div className="counter-container">
+        <Counter counter={counter} color={currentPhase.name === "flashing-green" ? "green" : currentPhase.name} />
+      </div>
+      <TrafficLight type="north" color={lights.north} />
+      <TrafficLight type="west" color={lights.west} />
+      <TrafficLight type="east" color={lights.east} />
+      <TrafficLight type="south" color={lights.south} />
+    </div>
+  );
+}
+
+export default Street;
