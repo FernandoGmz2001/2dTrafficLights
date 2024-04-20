@@ -17,7 +17,7 @@ function TrafficLight({type, color}) {
 
 TrafficLight.propTypes = {
   type: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(['red', 'yellow', 'green']).isRequired,
+  color: PropTypes.oneOf(['red', 'yellow', 'green','']).isRequired,
 };
 
 export default TrafficLight;
