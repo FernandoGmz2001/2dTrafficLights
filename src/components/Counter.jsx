@@ -19,7 +19,7 @@ function Counter({ color = "white", counterSettings }) {
   }, [count, counterSettings]);
 
   return (
-    <div className={`counter`}>
+    <div className={`counter ${color}`}>
       <h1>{count}</h1>
     </div>
   );

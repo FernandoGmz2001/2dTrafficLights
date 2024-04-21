@@ -3,16 +3,6 @@
     font-size: 128px;
  } 
 
- .counter.green{
-   color: green;
- }
- .counter.yellow{
-   color: yellow;
- }
- .counter.red{
-   color: red;
- }
-
- .transparent{
+ .counter.blink h1{
   color: #243143;
  }
