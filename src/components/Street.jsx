@@ -46,6 +46,7 @@ function Street() {
       setLight("green");
       await sleep(FLASH_TIME);
       setLight("blink");
+      await sleep(FLASH_TIME);
       setCount(1)
       setLight("yellow");
       setCounterName("yellow");
@@ -111,15 +112,10 @@ function Street() {
     <div className="street-bg">
       <div className="controls-container">
         <button className="btn btn-yellow">Preventivas</button>
-        {/* <button className="btn btn-restart">Reiniciar</button> */}
         <button className={`btn btn-restart`} onClick={running}>
           {isRunning ? "Detener" : "Iniciar"}
         </button>
-        {/* <button className={`btn ${isStopped ? 'btn-start' : 'btn-stop'}`} onClick={toggleStopStart}>
-        {isStopped ? 'Iniciar' : 'Detener'}
-      </button> */}
       </div>
-      {/* <Controls /> */}
       <div className="counter-container">
         {counterName === "green" && (
           <Counter
@@ -128,11 +124,11 @@ function Street() {
               direction: -1,
               interval: 1000,
             }}
-            color={light}
+            color={"green"}
           />
         )}
         {counterName === "flashing-green" && (
-          <h1 className={`counter ${light} ${light2}`}>{count}</h1>
+          <h1 className={`counter green ${light} ${light2}`}>{count}</h1>
         )}
         {counterName === "yellow" && (
           <Counter
@@ -141,6 +137,7 @@ function Street() {
               direction: 1,
               interval: 1000,
             }}
+            color="yellow"
           />
         )}
         {counterName === "red" && (
@@ -150,6 +147,7 @@ function Street() {
               direction: 1,
               interval: 1000,
             }}
+            color="red"
           />
         )}
       </div>
