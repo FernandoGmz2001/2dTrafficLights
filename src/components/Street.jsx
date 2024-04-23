@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import "../styles/Street.css";
+// import Controls from "./Controls";
 import TrafficLight from "./TrafficLight";
 import Counter from "./Counter";
+// import useCounter from "../utils/useCounter";
 
 function Street() {
   const [light, setLight] = useState("green");
@@ -9,17 +11,16 @@ function Street() {
   const [counterName, setCounterName] = useState("green");
   const [count, setCount] = useState(1);
   const [isRunning, setIsRunning] = useState(true);
-  const [isPreventive, setIsPreventive] = useState(false);
-  const GREEN_TIME = 16000;
+  const GREEN_TIME = 15500;
   const YELLOW_TIME = 2500;
   const FLASH_TIME = 500;
-  const RED_TIME = 2000;
+  const RED_TIME = 1500;
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   useEffect(() => {
     const trafficLights = async () => {
-      if (!isRunning || isPreventive) {
+      if (!isRunning) {
         setLight("");
         setLight2("");
         setCounterName("");
@@ -27,90 +28,72 @@ function Street() {
         return;
       }
       // Controla las luces de tráfico verticales
+      setCount(1)
       setLight("green");
       setCounterName("green");
       await sleep(GREEN_TIME);
-      if (!isRunning) return;
       setCounterName("flashing-green");
       setLight("blink");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight("green");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight("blink");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight("green");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight("blink");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight("green");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight("blink");
+      setCount(1)
       setLight("yellow");
       setCounterName("yellow");
       await sleep(YELLOW_TIME);
-      if (!isRunning) return;
       setLight("blink");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight("red");
       setCounterName("red");
       await sleep(RED_TIME);
-      if (!isRunning) return;
 
       // Controla las luces de tráfico horizontales
       setLight2("green");
       setCounterName("green");
       await sleep(GREEN_TIME);
-      if (!isRunning) return;
       setCounterName("flashing-green");
       setLight2("blink");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight2("green");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight2("blink");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight2("green");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight2("blink");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight2("green");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight2("blink");
       setLight2("yellow");
       setCounterName("yellow");
       await sleep(YELLOW_TIME);
-      if (!isRunning) return;
       setLight2("blink");
       await sleep(FLASH_TIME);
-      if (!isRunning) return;
       setLight2("red");
       setCounterName("red");
       await sleep(RED_TIME);
-      if (!isRunning) return;
+      trafficLights();
     };
-
 
     trafficLights();
 
     return () => {};
-  }, [isRunning, isPreventive]);
+  }, [isRunning]);
 
   useEffect(() => {
     if (counterName === "flashing-green") {
       const interval = setInterval(() => {
-        setCount((prevCount) => (prevCount < 3 ? prevCount + 1 : 1));
+        setCount((prevCount) => (prevCount + 1));
       }, 1000);
 
       return () => clearInterval(interval);
@@ -124,24 +107,19 @@ function Street() {
     }
   }
 
-  function setPreventives() {
-    setLight("yellow");
-    setLight2("yellow");
-    setIsRunning(false);
-    setIsPreventive(true);
-    return
-  }
-
   return (
     <div className="street-bg">
       <div className="controls-container">
-        <button className="btn btn-yellow" onClick={setPreventives}>
-          Preventivas
-        </button>
+        <button className="btn btn-yellow">Preventivas</button>
+        {/* <button className="btn btn-restart">Reiniciar</button> */}
         <button className={`btn btn-restart`} onClick={running}>
           {isRunning ? "Detener" : "Iniciar"}
         </button>
+        {/* <button className={`btn ${isStopped ? 'btn-start' : 'btn-stop'}`} onClick={toggleStopStart}>
+        {isStopped ? 'Iniciar' : 'Detener'}
+      </button> */}
       </div>
+      {/* <Controls /> */}
       <div className="counter-container">
         {counterName === "green" && (
           <Counter
