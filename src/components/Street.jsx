@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../styles/Street.css";
-// import Controls from "./Controls";
 import TrafficLight from "./TrafficLight";
 import Counter from "./Counter";
-// import useCounter from "../utils/useCounter";
 
 function Street() {
   const [light, setLight] = useState("green");
@@ -11,14 +9,22 @@ function Street() {
   const [counterName, setCounterName] = useState("green");
   const [count, setCount] = useState(1);
   const [isRunning, setIsRunning] = useState(true);
+  const [simulateYellow, setSimulateYellow] = useState(false);
   const GREEN_TIME = 15500;
   const YELLOW_TIME = 2500;
   const FLASH_TIME = 500;
   const RED_TIME = 1500;
 
+  const simulateYellowRef = useRef(simulateYellow);
+
+  useEffect(() => {
+    simulateYellowRef.current = simulateYellow;
+  }, [simulateYellow]);
+
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   useEffect(() => {
+    if(simulateYellowRef.current) return
     const trafficLights = async () => {
       if (!isRunning) {
         setLight("");
@@ -27,11 +33,11 @@ function Street() {
         await sleep(100000);
         return;
       }
-      // Controla las luces de tráfico verticales
-      setCount(1)
+      setCount(1);
       setLight("green");
       setCounterName("green");
       await sleep(GREEN_TIME);
+    if(simulateYellowRef.current) return
       setCounterName("flashing-green");
       setLight("blink");
       await sleep(FLASH_TIME);
@@ -47,7 +53,7 @@ function Street() {
       await sleep(FLASH_TIME);
       setLight("blink");
       await sleep(FLASH_TIME);
-      setCount(1)
+      setCount(1);
       setLight("yellow");
       setCounterName("yellow");
       await sleep(YELLOW_TIME);
@@ -57,7 +63,6 @@ function Street() {
       setCounterName("red");
       await sleep(RED_TIME);
 
-      // Controla las luces de tráfico horizontales
       setLight2("green");
       setCounterName("green");
       await sleep(GREEN_TIME);
@@ -89,17 +94,37 @@ function Street() {
     trafficLights();
 
     return () => {};
-  }, [isRunning]);
+  }, [isRunning, simulateYellow]);
 
   useEffect(() => {
     if (counterName === "flashing-green") {
       const interval = setInterval(() => {
-        setCount((prevCount) => (prevCount + 1));
+        setCount((prevCount) => prevCount + 1);
       }, 1000);
 
       return () => clearInterval(interval);
     }
   }, [counterName]);
+
+  useEffect(() => {
+    const blinking = async () => {
+      if (simulateYellowRef.current) {
+        while (simulateYellowRef.current) {
+          setLight("yellow");
+          setLight2("yellow");
+          await sleep(FLASH_TIME);
+          setLight("");
+          setLight2("");
+          await sleep(FLASH_TIME);
+          setCounterName("");
+        }
+        setCounterName("");
+        return;
+      }
+    };
+    blinking();
+    return () => {};
+  },[simulateYellow]);
 
   function running() {
     setIsRunning(!isRunning);
@@ -107,12 +132,17 @@ function Street() {
       window.location.reload();
     }
   }
+  function setYellow() {
+    setSimulateYellow(!simulateYellow);
+  }
 
   return (
     <div className="street-bg">
       <div className="controls-container">
-        <button className="btn btn-yellow">Preventivas</button>
-        <button className={`btn btn-restart`} onClick={running}>
+        <button className="btn btn-yellow" onClick={setYellow}>
+          {simulateYellow ? "Detener preventivas" : "Preventivas"}
+        </button>
+        <button className={`btn btn-start`} onClick={running}>
           {isRunning ? "Detener" : "Iniciar"}
         </button>
       </div>
@@ -137,7 +167,7 @@ function Street() {
               direction: 1,
               interval: 1000,
             }}
-            color="yellow"
+            color={light == "blink" || light2 == "blink" ?  "yellow blink" : "yellow"}
           />
         )}
         {counterName === "red" && (
